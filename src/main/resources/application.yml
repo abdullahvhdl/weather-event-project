@@ -1,11 +1,18 @@
 spring:
   jpa:
+
     hibernate:
       ddl-auto: update
+      naming:
+        strategy: org.hibernate.cfg.EJB3NamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
 
   datasource:
     url: jdbc:mysql://localhost/eventdb
     username: eventdb
     password: eventdb
     driver-class-name: com.mysql.jdbc.Driver
+
 

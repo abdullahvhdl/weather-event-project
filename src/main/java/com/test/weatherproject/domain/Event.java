@@ -2,13 +2,12 @@ package com.test.weatherproject.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Entity
-@Table(name = "EVENTS")
+@Entity(name = "EVENTS")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Event {
 
@@ -17,15 +16,18 @@ public class Event {
     @JsonIgnore
     private Long id;
 
-    private String alertText;
+    private String alert;
 
     private String location;
 
-    private double longtitude;
+    @NotNull
+    private Double longitude;
 
-    private double latitude;
+    @NotNull
+    private Double latitude;
 
-    private Date dateMS;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
 
     public Long getId() {
         return id;
@@ -35,12 +37,12 @@ public class Event {
         this.id = id;
     }
 
-    public String getAlertText() {
-        return alertText;
+    public String getAlert() {
+        return alert;
     }
 
-    public void setAlertText(String alertText) {
-        this.alertText = alertText;
+    public void setAlert(String alert) {
+        this.alert = alert;
     }
 
     public String getLocation() {
@@ -51,39 +53,39 @@ public class Event {
         this.location = location;
     }
 
-    public double getLongtitude() {
-        return longtitude;
+    public Double getLongitude() {
+        return longitude;
     }
 
-    public void setLongtitude(double longtitude) {
-        this.longtitude = longtitude;
+    public void setLongitude(Double lontitude) {
+        this.longitude = lontitude;
     }
 
-    public double getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(double latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public Date getDateMS() {
-        return dateMS;
+    public Date getDate() {
+        return date;
     }
 
-    public void setDateMS(Date dateMS) {
-        this.dateMS = dateMS;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override
     public String toString() {
         return "Event{" +
                 "id=" + id +
-                ", alertText='" + alertText + '\'' +
+                ", alert='" + alert + '\'' +
                 ", location='" + location + '\'' +
-                ", longtitude=" + longtitude +
+                ", longtitude=" + longitude +
                 ", latitude=" + latitude +
-                ", dateMS=" + dateMS +
+                ", date=" + date +
                 '}';
     }
 }
