@@ -17,19 +17,14 @@ public class Event {
     @JsonIgnore
     private Long id;
 
-    @JsonProperty(value = "description")
     private String alertText;
 
-    @JsonProperty(value = "name")
     private String location;
 
-    @JsonProperty(value = "lon")
     private double longtitude;
 
-    @JsonProperty(value = "lat")
     private double latitude;
 
-    @JsonProperty(value = "dt")
     private Date dateMS;
 
     public Long getId() {
@@ -38,6 +33,22 @@ public class Event {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getAlertText() {
+        return alertText;
+    }
+
+    public void setAlertText(String alertText) {
+        this.alertText = alertText;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public double getLongtitude() {

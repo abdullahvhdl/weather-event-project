@@ -1,10 +1,13 @@
 package com.test.weatherproject.schedule;
 
+import com.jayway.jsonpath.DocumentContext;
+import com.jayway.jsonpath.JsonPath;
 import com.test.weatherproject.domain.Event;
 import com.test.weatherproject.service.EventService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.data.web.JsonPath;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -38,23 +41,23 @@ public class EventScheduler {
 
         String apiKey = "88939d83390aa6b5998cf0ada758a1bb";
         String url = "http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID="+apiKey;
-        // Event event = restTemplate.getForObject(url, Event.class);
 
         HttpEntity<String> requestEntity = new HttpEntity<String>(headers);
 
-        ResponseEntity<Event> responseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, Event.class);
+        ResponseEntity<String> stringResponseEntity = restTemplate.exchange(url, HttpMethod.GET, requestEntity, String.class);
 
-        Event event = responseEntity.getBody();
+        String json = stringResponseEntity.getBody();
+
+        DocumentContext jsonContext = JsonPath.parse(json);
+
+        Event event = new Event();
+        event.setLatitude(jsonContext.read("$['coord']['lat']"));
+        event.setLatitude(jsonContext.read("$['coord']['lon']"));
+        //event.setDateMS(new Date(jsonContext.read("$['dt']")));
+        event.setLocation(jsonContext.read("$['name']"));
+        event.setAlertText(jsonContext.read("$['weather'][0]['description']"));
 
         log.info(event.toString());
 
-
-        //HttpEntity<String> requestEntity = new HttpEntity<>(headers);
-        //restTemplate.exchange(url, HttpMethod.GET, requestEntity, Event.class);
-
-
-
-
-        // eventService.add(event);
     }
 }
