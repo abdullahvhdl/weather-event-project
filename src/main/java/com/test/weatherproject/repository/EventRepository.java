@@ -1,6 +1,7 @@
 package com.test.weatherproject.repository;
 
 import com.test.weatherproject.domain.Event;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Temporal;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -10,11 +11,11 @@ import java.util.List;
 
 public interface EventRepository extends PagingAndSortingRepository<Event, Long>{
 
-    List<Event> findAllByLatitudeAndLongitudeAndDate(double latitude, double longitude, @Temporal(TemporalType.DATE) Date date);
+    List<Event> findAllByLatitudeAndLongitudeAndDate(double latitude, double longitude, @Temporal(TemporalType.DATE) Date date, Pageable pageable);
 
-    List<Event> findAllByLatitude(Double latitude);
+/*    List<Event> findAllByLatitude(Double latitude);
 
-    List<Event> findAllByLatitudeAndLongitude(Double latitude, Double longitude);
+    List<Event> findAllByLatitudeAndLongitude(Double latitude, Double longitude);*/
 
-    List<Event> findAllByDate(@Temporal(TemporalType.DATE) Date date);
+    List<Event> findAllByDate(@Temporal(TemporalType.DATE) Date date, Pageable pageable);
 }

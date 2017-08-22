@@ -20,13 +20,11 @@ public class Event {
 
     private String location;
 
-    @NotNull
     private Double longitude;
 
-    @NotNull
     private Double latitude;
 
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date date;
 
     public Long getId() {
@@ -57,8 +55,8 @@ public class Event {
         return longitude;
     }
 
-    public void setLongitude(Double lontitude) {
-        this.longitude = lontitude;
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public Double getLatitude() {
@@ -83,7 +81,7 @@ public class Event {
                 "id=" + id +
                 ", alert='" + alert + '\'' +
                 ", location='" + location + '\'' +
-                ", longtitude=" + longitude +
+                ", longitude=" + longitude +
                 ", latitude=" + latitude +
                 ", date=" + date +
                 '}';
