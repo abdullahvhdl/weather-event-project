@@ -2,7 +2,10 @@ package com.test.weatherproject.controller;
 
 import com.test.weatherproject.domain.Event;
 import com.test.weatherproject.exception.EventNotFoundException;
+import com.test.weatherproject.schedule.EventScheduler;
 import com.test.weatherproject.service.EventService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +21,9 @@ import java.util.List;
 @RequestMapping("weatherservice")
 public class EventController {
 
+    private static final Logger log = LoggerFactory.getLogger(EventScheduler.class);
 
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     private EventService eventService;
 
@@ -69,9 +75,9 @@ public class EventController {
         return event;
     }
 
-
     @ExceptionHandler(EventNotFoundException.class)
     public void handleEventNotFound(EventNotFoundException exception, HttpServletResponse response) throws IOException {
+        log.error("");
         response.sendError(HttpStatus.NOT_FOUND.value(), exception.getMessage());
     }
 

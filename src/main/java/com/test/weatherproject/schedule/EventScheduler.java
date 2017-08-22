@@ -1,73 +1,41 @@
 package com.test.weatherproject.schedule;
 
-import com.jayway.jsonpath.DocumentContext;
-import com.jayway.jsonpath.JsonPath;
 import com.test.weatherproject.domain.Event;
+import com.test.weatherproject.helper.JsonPathHelper;
 import com.test.weatherproject.service.EventService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.data.web.JsonPath;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URISyntaxException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 public class EventScheduler {
 
-    private static final Logger log = LoggerFactory.getLogger(EventScheduler.class);
-
-    // private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private Logger logger = Logger.getLogger(EventScheduler.class);
 
     private EventService eventService;
+    private JsonPathHelper jsonPathHelper;
 
     @Autowired
-    public EventScheduler(EventService eventService) {
+    public EventScheduler(EventService eventService, JsonPathHelper jsonPathHelper) {
         this.eventService = eventService;
+        this.jsonPathHelper = jsonPathHelper;
     }
 
-    //@Scheduled(fixedRate = 2000)
+    @Scheduled(fixedRate = 2000)
     public void persistWeatherInformation() throws URISyntaxException {
 
         String json = getExternalWeatherData();
-        Event event = convertJsonDataIntoEventObject(json);
-
+        Event event = jsonPathHelper.convertJsonToEventObject(json);
         eventService.add(event);
-        log.info(event.toString());
-    }
 
-    private Event convertJsonDataIntoEventObject(String json) {
-        DocumentContext jsonContext = JsonPath.parse(json);
-        Event event = new Event();
+        logger.info("Added new Event: " + event);
 
-        try {
-            Double latitude = jsonContext.read("$['coord']['lat']");
-            event.setLatitude(latitude);
-        } catch (ClassCastException e) {
-            Integer latitudeInt = jsonContext.read("$['coord']['lat']");
-            event.setLatitude((double)latitudeInt);
-        }
-
-        try {
-            Double longitude = jsonContext.read("$['coord']['lon']");
-            event.setLongitude(longitude);
-        } catch (ClassCastException e) {
-            Integer longitudeInt = jsonContext.read("$['coord']['lon']");
-            event.setLongitude((double)longitudeInt);
-        }
-
-        Integer timeStamp = jsonContext.read("$['dt']");
-        event.setDate(new Date(timeStamp * 1000L));
-        event.setLocation(jsonContext.read("$['name']"));
-        event.setAlert(jsonContext.read("$['weather'][0]['description']"));
-        return event;
     }
 
     private String getExternalWeatherData() {
