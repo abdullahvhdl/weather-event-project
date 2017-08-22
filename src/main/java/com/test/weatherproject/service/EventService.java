@@ -10,5 +10,4 @@ public interface EventService {
 
     List<Event> findAllByLocationAndDate(Event event, int rows);
 
-    List<Event> findAllByDate(Event event, int rows);
 }

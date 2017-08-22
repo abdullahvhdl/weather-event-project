@@ -30,23 +30,4 @@ public class EventServiceImpl implements EventService{
         return eventRepository.findAllByLatitudeAndLongitudeAndDate(event.getLatitude(), event.getLongitude(), event.getDate(), rowsPerPage);
     }
 
-/*
-    @Override
-    public List<Event> findAllByLatitude(Event event) {
-        return eventRepository.findAllByLatitude(event.getLatitude());
-    }
-*/
-
-/*    @Override
-    public List<Event> findAllByLatitudeAndLongitude(Event event) {
-        return eventRepository.findAllByLatitudeAndLongitude(event.getLatitude(), event.getLongitude());
-    }*/
-
-    @Override
-    public List<Event> findAllByDate(Event event, int rows) {
-        Pageable rowsPerPage = new PageRequest(0, rows);
-        return eventRepository.findAllByDate(event.getDate(), rowsPerPage);
-    }
-
-
 }

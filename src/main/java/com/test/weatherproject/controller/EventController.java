@@ -23,8 +23,6 @@ public class EventController {
 
     private static final Logger log = LoggerFactory.getLogger(EventScheduler.class);
 
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
-
     private EventService eventService;
 
     @Autowired
@@ -77,7 +75,7 @@ public class EventController {
 
     @ExceptionHandler(EventNotFoundException.class)
     public void handleEventNotFound(EventNotFoundException exception, HttpServletResponse response) throws IOException {
-        log.error("");
+        log.error("Event not found in database.");
         response.sendError(HttpStatus.NOT_FOUND.value(), exception.getMessage());
     }
 

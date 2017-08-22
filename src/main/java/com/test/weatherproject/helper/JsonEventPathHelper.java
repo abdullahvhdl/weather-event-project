@@ -10,7 +10,6 @@ import java.util.Date;
 @Component
 public class JsonEventPathHelper implements JsonPathHelper {
 
-
     public Event convertJsonToEventObject(String json) {
         DocumentContext jsonContext = JsonPath.parse(json);
         Event event = new Event();

@@ -13,5 +13,4 @@ public interface EventRepository extends PagingAndSortingRepository<Event, Long>
 
     List<Event> findAllByLatitudeAndLongitudeAndDate(double latitude, double longitude, @Temporal(TemporalType.DATE) Date date, Pageable pageable);
 
-    List<Event> findAllByDate(@Temporal(TemporalType.DATE) Date date, Pageable pageable);
 }
